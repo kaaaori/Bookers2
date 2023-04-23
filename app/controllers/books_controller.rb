@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
-  #def new
+ before_action :is_matching_login_user, only: [:edit, :update]
+ #def new
   #end不要かも？
   def create
     @book = Book.new(book_params)
@@ -19,8 +20,9 @@ class BooksController < ApplicationController
   end
   
   def show
+    @booknew = Book.new
     @book = Book.find(params[:id])
-    @user = current_user
+    @user = @book.user
   end
 
   def edit
@@ -53,6 +55,13 @@ class BooksController < ApplicationController
     unless image.attached?
       file_path = Rails.root.join('app/assets/images/no_image.jpg')
       image.attach(io: File.open(file_path), filename: 'default-image.jpg', content_type: 'image/jpeg')
+    end
+  end
+  
+  def is_matching_login_user
+    book = Book.find(params[:id])
+    unless user.id == current_user.id
+      redirect_to user_path(user.id)
     end
   end
 end
