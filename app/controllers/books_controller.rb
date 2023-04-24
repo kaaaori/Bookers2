@@ -9,6 +9,7 @@ class BooksController < ApplicationController
       flash[:notice] = "You have created book successfully."
       redirect_to book_path(@book)
     else
+      @books = Book.all
       render :index
     end
   end 
@@ -59,9 +60,9 @@ class BooksController < ApplicationController
   end
   
   def is_matching_login_user
-    book = Book.find(params[:id])
-    unless user.id == current_user.id
-      redirect_to user_path(user.id)
+    @book = Book.find(params[:id])
+    unless @book.user == current_user
+      redirect_to book_path
     end
   end
 end

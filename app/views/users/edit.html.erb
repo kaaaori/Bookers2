@@ -1,36 +1,38 @@
 <p id="notice"><%= flash[:notice] %></p>
 <div class="container">
   <div class="row">
-    <h2>Uses info</h2>
-    <div class="errorblock">
-      <% if @user.errors.any? %>
-        <div class="alert">
-          <h3><%= @user.errors.count %> error prohibited this obj from being saved:</h3>
-            <ul>
-              <% @user.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-            </ul>
+    <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0">
+      <h2>User info</h2>
+      <div class="errorblock">
+        <% if @user.errors.any? %>
+          <div class="alert">
+            <h3><%= @user.errors.count %> error prohibited this obj from being saved:</h3>
+              <ul>
+                <% @user.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+          </div>
+        <% end %>
+      </div>
+    
+      <%= form_with model: @user do |f| %>
+        <div class="form-group">
+          <label for="inputName">Name</label>
+          <br><%= f.text_field :name, autofocus: true, id:"inputName" %>
+        </div>
+        <div class="form-group">
+          <label for="inputImage">ProfileImage</label>
+          <br><%= f.file_field :profile_image, placeholder: "Image", accept: "image/*" %>
+        </div>
+        <div class="form-group">
+          <label for="inputName">Introduction</label>
+          <br><%= f.text_area :introduction, autofocus: true, id:"inputText" %>
+        </div>
+        <div class="form-group">
+          <%= f.submit "Update User", class: "btn btn-secondary" %>
         </div>
       <% end %>
-    </div>
-  
-    <%= form_with model: @user do |f| %>
-      <div class="form-group">
-        <label for="inputName">Name</label>
-        <br><%= f.text_field :name, autofocus: true, id:"inputName" %>
-      </div>
-      <div class="form-group">
-        <label for="inputImage">ProfileImage</label>
-        <br><%= f.file_field :profile_image, placeholder: "Image", accept: "image/*" %>
-      </div>
-      <div class="form-group">
-        <label for="inputName">Introduction</label>
-        <br><%= f.text_area :introduction, autofocus: true, id:"inputText" %>
-      </div>
-      <div class="form-group">
-        <%= f.submit "Update User" %>
-      </div>
-    <% end %>
-  </div> 
-</div> 
+    </div> 
+  </div>
+</div>
